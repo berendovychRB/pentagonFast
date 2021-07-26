@@ -2,6 +2,7 @@ from fastapi import HTTPException, status, Depends
 from sqlalchemy.orm import Session
 
 import models
+import oauth2
 from hashing import Hash
 import schemas
 
@@ -12,6 +13,10 @@ def all(db: Session):
 
 
 def create(request: schemas.User, db: Session):
+    #
+    # if not request.is_admin:
+    #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No permission")
+
     new_user = models.User(email=request.email,
                            name=request.name,
                            hashed_password=Hash.bcrypt(request.hashed_password),

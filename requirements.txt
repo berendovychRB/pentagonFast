@@ -7,3 +7,4 @@ python-jose
 pydantic~=1.8.2
 cryptography
 python-multipart
+email-validator

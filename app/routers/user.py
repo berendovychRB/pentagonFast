@@ -20,6 +20,7 @@ def all_users(db: Session = Depends(get_db), current_user: schemas.User = Depend
     return user.all(db)
 
 # I don't know how to get current user. Now its only commented
+
 # @router.post('/create', status_code=status.HTTP_201_CREATED, response_model=schemas.ShowUser)
 # def create(request: schemas.User, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 #
@@ -27,7 +28,7 @@ def all_users(db: Session = Depends(get_db), current_user: schemas.User = Depend
 
 
 # Method is needed to fix updated_at Field
-@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED, response_model=schemas.ShowUser)
+@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
 def update(id: int, request: schemas.User, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return user.update(id, request, db)
 

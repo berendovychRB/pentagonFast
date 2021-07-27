@@ -1,0 +1,9 @@
+version: '3'
+services:
+  pentagon_api:
+    build: .
+    container_name: "pentagon-api-container"
+    ports:
+      - "8000:15400"
+    volumes:
+      - ./app/:/app

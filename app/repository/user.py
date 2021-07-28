@@ -1,10 +1,9 @@
-from fastapi import HTTPException, status, Depends
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-import models
-import oauth2
-from hashing import Hash
-import schemas
+import app.models as models
+import app.schemas as schemas
+from app.hashing import Hash
 
 
 def all(db: Session):

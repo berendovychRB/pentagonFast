@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    container_name: "pentagon-api-container"
+    ports:
+      - "8000:15400"
+    volumes:
+      - ./pentagonFast:/usr/src/app

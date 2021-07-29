@@ -5,6 +5,6 @@ services:
     build: .
     container_name: "pentagon-api-container"
     ports:
-      - "8000:15400"
+      - "8080:8080"
     volumes:
       - ./pentagonFast:/usr/src/app

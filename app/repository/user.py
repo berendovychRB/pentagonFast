@@ -1,9 +1,9 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-import app.models as models
-import app.schemas as schemas
-from app.hashing import Hash
+import models as models
+import schemas as schemas
+from hashing import Hash
 
 
 def all(db: Session):

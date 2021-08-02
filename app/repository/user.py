@@ -1,10 +1,12 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-import models as models
-import schemas as schemas
-from hashing import Hash
-
+# import models as models
+from .. import models
+# import schemas as schemas
+from .. import schemas
+# from hashing import Hash
+from ..hashing import Hash
 
 def all(db: Session):
     users = db.query(models.User).all()

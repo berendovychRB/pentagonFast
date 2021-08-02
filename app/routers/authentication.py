@@ -1,11 +1,16 @@
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, status
-import schemas as schemas
-import database as database
-import models as models
-import jwt_token as jwt_token
-from hashing import Hash
+# import models as models
+from .. import models
+# import schemas as schemas
+from .. import schemas
+# import database as database
+from .. import database
+# import jwt_token as jwt_token
+from .. import jwt_token
+# from hashing import Hash
+from ..hashing import Hash
 from sqlalchemy.orm import Session
 
 router = APIRouter(

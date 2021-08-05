@@ -4,12 +4,24 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+
+
 # Form with fields which is required in creating or updating
 class User(BaseModel):
-    email: EmailStr
-    name: str
-    hashed_password: str
-    is_admin: bool
+    email: Optional[EmailStr] = None
+    name: Optional[str] = None
+    hashed_password: Optional[str] = None
+    # is_admin: Optional[bool] = None
+
+    class Config:
+        orm_mode = True
 
 
 class Register(BaseModel):
@@ -39,11 +51,3 @@ class Login(BaseModel):
     email: EmailStr
     hashed_password: str
 
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    email: Optional[str] = None

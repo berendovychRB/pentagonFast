@@ -1,13 +1,13 @@
-FROM python:3.8
+FROM python:3.7
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/fastapi
 
-COPY . .
+COPY ./app ./app
 
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-
-EXPOSE 8080
+#EXPOSE 8080
 
 #CMD [ "uvicorn", "app.main:app", "--host=0.0.0.0", "--port=8080"]
 
-CMD ["python", "./app/main.py"]
+#CMD ["python", "app/main.py"]

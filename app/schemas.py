@@ -32,7 +32,6 @@ class Register(BaseModel):
 
 # Form for returning instance with fields which are writen here (In my case, all fields without password Field)
 class ShowUser(BaseModel):
-
     id: int
     email: EmailStr
     name: str
@@ -50,4 +49,3 @@ class ShowUser(BaseModel):
 class Login(BaseModel):
     email: EmailStr
     hashed_password: str
-

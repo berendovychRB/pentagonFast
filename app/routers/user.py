@@ -17,17 +17,13 @@ get_db = database.get_db
 
 @router.get('/all', response_model=List[schemas.ShowUser])
 def all_users(db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
-    return user.all(db)
-
-# @router.post('/create', status_code=status.HTTP_201_CREATED, response_model=schemas.ShowUser)
-# def create(request: schemas.User, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
-#
-#     return user.create(request, db)
+    return user.get_all(db)
 
 
 # Method is needed to fix updated_at Field
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED, response_model=schemas.ShowUser)
-def update(id: int, request: schemas.User, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
+def update(id: int, request: schemas.User, db: Session = Depends(get_db),
+           current_user: schemas.User = Depends(get_current_user)):
     return user.update(id, request, db)
 
 
@@ -44,4 +40,3 @@ def delete_user(id: int, db: Session = Depends(get_db), current_user: schemas.Us
 @router.get("/me/", response_model=schemas.User)
 def read_users_me(current_user: schemas.User = Depends(get_current_user)):
     return current_user
-

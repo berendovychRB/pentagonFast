@@ -18,7 +18,7 @@ class User(BaseModel):
     email: Optional[EmailStr] = None
     name: Optional[str] = None
     hashed_password: Optional[str] = None
-    # is_admin: Optional[bool] = None
+    is_admin: Optional[bool] = None
 
     class Config:
         orm_mode = True

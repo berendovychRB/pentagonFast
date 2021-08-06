@@ -8,8 +8,8 @@ from sqlalchemy.orm import sessionmaker
 # engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
 
 # =================== FOR POSTGRESQL DB =========================
-# POSTGRES_DATABASE_URL = "postgresql://username:password@db:5432/api"
-POSTGRES_DATABASE_URL = "postgresql://root1:root@localhost/pentagon_db"
+POSTGRES_DATABASE_URL = "postgresql://username:password@db:5432/api"
+# POSTGRES_DATABASE_URL = "postgresql://root1:root@localhost/pentagon_db"
 
 engine = create_engine(POSTGRES_DATABASE_URL)
 

@@ -1,12 +1,15 @@
-FROM python:3.7
+FROM python:3.8
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=on
+
+RUN pip install poetry
 
 WORKDIR /usr/src/fastapi
 
 COPY ./app ./app
 
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-
 COPY pyproject.toml pyproject.toml
 COPY poetry.lock poetry.lock
 
-RUN poetry install
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-interaction

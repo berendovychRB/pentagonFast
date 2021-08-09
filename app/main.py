@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from app import models
 from app.database import engine
-from app.routers import user, authentication
+from app.routers import authentication, user
 
 app = FastAPI()
 

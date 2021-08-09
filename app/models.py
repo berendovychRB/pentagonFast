@@ -1,6 +1,8 @@
 import datetime
-from database import Base
+
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
+
+from app.database import Base
 
 
 class User(Base):
@@ -10,5 +12,6 @@ class User(Base):
     name = Column(String)
     hashed_password = Column(String)
     is_admin = Column(Boolean)
+    is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)

@@ -1,12 +1,12 @@
-from datetime import timedelta
-from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, status
-import schemas
-import database
-import models
-import jwt_token
-from hashing import Hash
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+
+from app.hashing import Hash
+from app import database
+from app import jwt_token
+from app import models
+from app import schemas
 
 router = APIRouter(
     tags=['Authentication']
@@ -29,7 +29,8 @@ def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(
 @router.post('/registration', status_code=status.HTTP_201_CREATED, response_model=schemas.ShowUser)
 def registration(request: schemas.Register, db: Session = Depends(database.get_db)):
     if len(request.hashed_password) < 8:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password is too short. At least 8 symbols!")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="Password is too short. At least 8 symbols!")
     new_user = models.User(email=request.email,
                            name=request.name,
                            hashed_password=Hash.bcrypt(request.hashed_password),

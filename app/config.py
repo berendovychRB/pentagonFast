@@ -4,7 +4,7 @@ from functools import lru_cache
 from pydantic import BaseSettings
 
 ROOT_DIR = os.path.abspath(os.curdir)
-SECRET_PATH = os.path.join(ROOT_DIR, 'config/local/')
+SECRET_PATH = os.path.join(ROOT_DIR, "config/local/")
 
 
 class Settings(BaseSettings):

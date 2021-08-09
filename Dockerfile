@@ -4,5 +4,9 @@ WORKDIR /usr/src/fastapi
 
 COPY ./app ./app
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+
+COPY pyproject.toml pyproject.toml
+COPY poetry.lock poetry.lock
+
+RUN poetry install

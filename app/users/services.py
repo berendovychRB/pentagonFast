@@ -3,10 +3,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
-from app import models, schemas
 from app.config import settings
 from app.database import get_db
-from app.hashing import Hash
+from app.security import Hash
+from app.users import models, schemas
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -60,9 +60,7 @@ def get(id: int, db: Session):
     return user
 
 
-def get_current_user(
-    db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)
-):
+def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -86,9 +84,7 @@ def delete(id: int, db: Session):
     user = db.query(models.User).filter(models.User.id == id)
 
     if not user.first():
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {id} not found"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {id} not found")
 
     user.delete(synchronize_session=False)
     db.commit()

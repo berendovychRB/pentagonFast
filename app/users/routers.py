@@ -1,53 +1,76 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from app import database
-from app.users import schemas, services
-from app.users.services import get_current_user
+from app.users import schemas
+from app.users.services import UserService
 
-router = APIRouter(prefix="/user", tags=["Users"])
-get_db = database.get_db
+router = APIRouter(tags=["Users"])
+get_session = database.get_session
+userService = UserService()
 
 
-@router.get("/all", response_model=List[schemas.User])
+@router.get("/user/all", response_model=List[schemas.User])
 def all_users(
-    db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user),
+    service=Depends(UserService),
+    current_user: schemas.User = Depends(userService.get_current_user),
 ):
-    return services.get_all(db)
+    return service.get_users()
 
 
-# Method is needed to fix updated_at Field
-@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.User)
+@router.patch("/user/{id}", status_code=status.HTTP_202_ACCEPTED)
 def update(
     id: int,
-    request: schemas.User,
-    db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user),
+    request: schemas.UserCreate,
+    service=Depends(UserService),
+    # current_user: schemas.User = Depends(UserService.get_current_user),
 ):
-    return services.update(id, request, db)
+    return service.update_user(request, id)
 
 
-@router.get("/{id}", status_code=200, response_model=schemas.User)
+@router.get("/user/{id}", status_code=200, response_model=schemas.User)
 def get_user(
     id: int,
-    db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user),
+    service=Depends(UserService),
+    # current_user: schemas.User = Depends(userService.get_current_user),
 ):
-    return services.get(id, db)
+    return service.get_user(id)
 
 
-@router.delete("/{id}", responses={204: {"model": None}})
+@router.delete("/user/{id}", responses={204: {"model": None}})
 def delete_user(
     id: int,
-    db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user),
+    service=Depends(UserService),
+    # current_user: schemas.User = Depends(userService.get_current_user),
 ):
-    return services.delete(id, db)
+    return service.delete_user(id)
 
 
-@router.get("/me/", response_model=schemas.User)
-def read_users_me(current_user: schemas.User = Depends(get_current_user)):
+@router.get("/user/me/", response_model=schemas.User)
+def read_users_me(
+        current_user: schemas.User = Depends(UserService.get_current_user)
+):
     return current_user
+
+
+@router.post('/login')
+def login(
+    request: OAuth2PasswordRequestForm = Depends(),
+    service=Depends(UserService)
+):
+    return service.authentication(request)
+
+
+@router.post(
+    "/registration",
+    status_code=status.HTTP_201_CREATED,
+    response_model=schemas.User
+)
+def sing_up(
+        request: schemas.UserCreate,
+        service=Depends(UserService)
+):
+    return service.registration(request)

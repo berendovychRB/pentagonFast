@@ -24,7 +24,6 @@ class UserCreate(BaseUser):
         orm_mode = True
 
 
-
 class Token(BaseModel):
     access_token: str
     token_type: str

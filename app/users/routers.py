@@ -15,7 +15,7 @@ userService = UserService()
 
 @router.get("/user/all", response_model=List[schemas.User])
 def all_users(
-    service=Depends(UserService),
+    service: UserService = Depends(),
     current_user: schemas.User = Depends(userService.get_current_user),
 ):
     return service.get_users()
@@ -25,7 +25,7 @@ def all_users(
 def update(
     id: int,
     request: schemas.UserCreate,
-    service=Depends(UserService),
+    service: UserService = Depends(),
     # current_user: schemas.User = Depends(UserService.get_current_user),
 ):
     return service.update_user(request, id)
@@ -34,7 +34,7 @@ def update(
 @router.get("/user/{id}", status_code=200, response_model=schemas.User)
 def get_user(
     id: int,
-    service=Depends(UserService),
+    service: UserService = Depends(),
     # current_user: schemas.User = Depends(userService.get_current_user),
 ):
     return service.get_user(id)
@@ -43,34 +43,25 @@ def get_user(
 @router.delete("/user/{id}", responses={204: {"model": None}})
 def delete_user(
     id: int,
-    service=Depends(UserService),
+    service: UserService = Depends(),
     # current_user: schemas.User = Depends(userService.get_current_user),
 ):
     return service.delete_user(id)
 
 
 @router.get("/user/me/", response_model=schemas.User)
-def read_users_me(
-        current_user: schemas.User = Depends(UserService.get_current_user)
-):
+def read_users_me(current_user: schemas.User = Depends(UserService.get_current_user)):
     return current_user
 
 
-@router.post('/login')
+@router.post("/login")
 def login(
     request: OAuth2PasswordRequestForm = Depends(),
-    service=Depends(UserService)
+    service: UserService = Depends(),
 ):
     return service.authentication(request)
 
 
-@router.post(
-    "/registration",
-    status_code=status.HTTP_201_CREATED,
-    response_model=schemas.User
-)
-def sing_up(
-        request: schemas.UserCreate,
-        service=Depends(UserService)
-):
+@router.post("/registration", status_code=status.HTTP_201_CREATED, response_model=schemas.User)
+def sing_up(request: schemas.UserCreate, service: UserService = Depends()):
     return service.registration(request)

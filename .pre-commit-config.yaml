@@ -1,5 +1,5 @@
 repos:
-- repo: https://github.com/berendovychRB/pentagonFast
+- repo: local
   hooks:
     - id: flake8
       name: flake8
@@ -10,7 +10,7 @@ repos:
 
     - id: black
       name: black
-      entry: blacke
+      entry: black
       language: system
       types: [python]
       args: [--line-length=200, --target-version=py37]

@@ -7,6 +7,8 @@ from app.config import settings
 from app.users import schemas
 
 # For hashing passwords
+from app.exceptions import IncorrectPasswordError
+
 pwd_cxt = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
@@ -14,8 +16,11 @@ class Hash:
     def bcrypt(password: str):
         return pwd_cxt.hash(password)
 
-    def verify(hashed_password, plain_password):
-        return pwd_cxt.verify(plain_password, hashed_password)
+    def verify(plain_password, hashed_password):
+        is_correct = pwd_cxt.verify(plain_password, hashed_password)
+        if not is_correct:
+            raise IncorrectPasswordError
+        return is_correct
 
 
 def jwt_encode(data: dict) -> str:

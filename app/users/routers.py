@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
+from requests import Response
 
 from app import database
 from app.users import schemas
@@ -20,7 +21,7 @@ def all_users(
     return service.get_users()
 
 
-@router.patch("/user/{id}", status_code=status.HTTP_202_ACCEPTED)
+@router.patch("/user/{id}/update", status_code=status.HTTP_202_ACCEPTED)
 def update(
     id: int,
     request: schemas.UserCreate,
@@ -39,13 +40,14 @@ def get_user(
     return service.get_user(id)
 
 
-@router.delete("/user/{id}", responses={204: {"model": None}})
+@router.delete("/user/{id}/delete", responses={204: {"model": None}})
 def delete_user(
     id: int,
     service: UserService = Depends(),
     current_user: schemas.User = Depends(get_current_user),
 ):
-    return service.delete_user(id)
+    service.delete_user(id)
+    return Response(status_code=204)
 
 
 @router.get("/user/me/", response_model=schemas.User)

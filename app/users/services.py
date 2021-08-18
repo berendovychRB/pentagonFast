@@ -51,8 +51,7 @@ class UserService:
 
     def delete_user(self, id: int):
         user = self._get_user_by_id(id)
-
-        user.delete(synchronize_session=False)
+        self.session.delete(user)
         self.session.commit()
 
     def authentication(self, email, password):

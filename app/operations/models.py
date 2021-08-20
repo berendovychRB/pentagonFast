@@ -5,8 +5,7 @@ from bson import ObjectId
 from app.operations.validators import PyObjectId
 
 
-class Extract(BaseModel):
-    id: Optional[PyObjectId] = Field(alias='_id')
+class ExtractBase(BaseModel):
     card: str
     appcode: str
     trandate: str
@@ -15,6 +14,10 @@ class Extract(BaseModel):
     rest: str
     terminal: str
     description: str
+
+
+class Extract(ExtractBase):
+    id: Optional[PyObjectId] = Field(alias='_id')
 
     class Config:
         arbitrary_types_allowed = True
